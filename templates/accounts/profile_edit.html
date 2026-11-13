@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile — ValoStrat{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card-valo p-4">
+            <div class="text-center mb-4">
+                <i class="bi bi-pencil-square text-valo-red" style="font-size: 2.5rem;"></i>
+                <h2 class="mt-2" style="font-weight: 800;">EDIT PROFILE</h2>
+                <p class="text-muted">Update your ValoStrat profile details</p>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                <!-- Current photo preview -->
+                {% if user.profile_photo %}
+                    <div class="text-center mb-3">
+                        <img src="{{ user.profile_photo.url }}" alt="Current photo" class="profile-photo">
+                        <p class="text-muted small mt-1">Current profile photo</p>
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="text-danger small mt-1">
+                                <i class="bi bi-exclamation-circle"></i> {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-valo flex-fill">
+                        <i class="bi bi-check-lg"></i> Save Changes
+                    </button>
+                    <a href="{% url 'profile' %}" class="btn btn-outline-valo flex-fill">
+                        <i class="bi bi-x-lg"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
