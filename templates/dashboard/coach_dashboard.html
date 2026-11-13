@@ -3,81 +3,56 @@
 {% block title %}Coach Dashboard — ValoStrat{% endblock %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col-12">
-        <h1 style="font-weight: 800;">
-            <i class="bi bi-shield-check text-valo-red"></i>
-            Welcome, Coach {{ user.first_name|default:user.username }}!
-        </h1>
-        <p class="text-muted">
-            <span class="badge bg-danger">{{ user.get_role_display }}</span>
-            Team management &amp; strategy overview
-        </p>
-    </div>
-</div>
+<h1>Welcome, Coach {{ user.first_name|default:user.username }}!</h1>
+<p><span class="badge badge-valo">{{ user.get_role_display }}</span></p>
 
-<!-- Stats Row -->
-<div class="row g-4 mb-4">
+<div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-number">{{ total_users }}</div>
-            <div class="stat-label">Total Members</div>
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>{{ total_users }}</h3>
+                <p class="text-valo-teal mb-0">Total Members</p>
+            </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-number">{{ total_players }}</div>
-            <div class="stat-label">Players</div>
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>{{ total_players }}</h3>
+                <p class="text-valo-teal mb-0">Players</p>
+            </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-number">{{ total_coaches }}</div>
-            <div class="stat-label">Coaches</div>
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>{{ total_coaches }}</h3>
+                <p class="text-valo-teal mb-0">Coaches</p>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Coach Action Cards -->
-<div class="row g-4">
+<div class="row g-3">
     <div class="col-md-6">
-        <div class="card-valo p-4 h-100">
-            <h4 class="text-valo-teal"><i class="bi bi-person-badge"></i> Your Profile</h4>
-            <hr style="border-color: rgba(255,70,85,0.2);">
-            <table class="table table-borderless mb-0" style="color: var(--vs-light);">
-                <tr>
-                    <td class="text-muted" style="width: 40%;"><i class="bi bi-person"></i> Username</td>
-                    <td>{{ user.username }}</td>
-                </tr>
-                <tr>
-                    <td class="text-muted"><i class="bi bi-envelope"></i> Email</td>
-                    <td>{{ user.email|default:"Not set" }}</td>
-                </tr>
-                <tr>
-                    <td class="text-muted"><i class="bi bi-shield"></i> Role</td>
-                    <td>{{ user.get_role_display }}</td>
-                </tr>
-                <tr>
-                    <td class="text-muted"><i class="bi bi-clock-history"></i> Last Login</td>
-                    <td>{{ user.last_login|date:"M d, Y — H:i" }}</td>
-                </tr>
-            </table>
-            <a href="{% url 'profile_edit' %}" class="btn btn-outline-valo btn-sm mt-3">
-                <i class="bi bi-pencil-square"></i> Edit Profile
-            </a>
+        <div class="card">
+            <div class="card-body">
+                <h5>Your Profile</h5>
+                <table class="table table-sm mb-0">
+                    <tr><td class="text-valo-teal">Username</td><td>{{ user.username }}</td></tr>
+                    <tr><td class="text-valo-teal">Email</td><td>{{ user.email|default:"Not set" }}</td></tr>
+                    <tr><td class="text-valo-teal">Role</td><td>{{ user.get_role_display }}</td></tr>
+                </table>
+                <a href="{% url 'profile_edit' %}" class="btn btn-sm btn-outline-valo mt-2">Edit Profile</a>
+            </div>
         </div>
     </div>
     <div class="col-md-6">
-        <div class="card-valo p-4 h-100">
-            <h4 class="text-valo-teal"><i class="bi bi-gear"></i> Coach Actions</h4>
-            <hr style="border-color: rgba(255,70,85,0.2);">
-            <div class="d-grid gap-3">
-                <a href="{% url 'coach_panel' %}" class="btn btn-valo">
-                    <i class="bi bi-people"></i> Manage Team Members
-                </a>
-                <a href="{% url 'profile' %}" class="btn btn-outline-valo">
-                    <i class="bi bi-person-circle"></i> View Profile
-                </a>
+        <div class="card">
+            <div class="card-body">
+                <h5>Coach Actions</h5>
+                <a href="{% url 'coach_panel' %}" class="btn btn-valo w-100 mb-2">Manage Team Members</a>
+                <a href="{% url 'profile' %}" class="btn btn-outline-valo w-100">View Profile</a>
             </div>
         </div>
     </div>

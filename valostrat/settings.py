@@ -3,9 +3,14 @@ Django settings for valostrat project.
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env file
+load_dotenv(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-v4l0str4t-s3cr3t-k3y-ch4ng3-1n-pr0duct10n!'
@@ -58,26 +63,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'valostrat.wsgi.application'
 
-# Database — SQLite for local development
-# Switch to PostgreSQL in production by uncommenting the block below
+# Database — Supabase PostgreSQL
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config()
 }
-
-# PostgreSQL (uncomment when available):
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'valostrat_db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES['default']['DISABLE_SERVER_SIDE_CURSORS'] = True
 
 # Custom user model
 AUTH_USER_MODEL = 'accounts.CustomUser'

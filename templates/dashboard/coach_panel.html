@@ -3,82 +3,71 @@
 {% block title %}Coach Panel — ValoStrat{% endblock %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col-12">
-        <h1 style="font-weight: 800;">
-            <i class="bi bi-shield-lock text-valo-red"></i> Coach Panel
-        </h1>
-        <p class="text-muted">Manage all ValoStrat members — Coaches only</p>
+<h1>Coach Panel</h1>
+<p class="text-valo-teal">Manage all ValoStrat members</p>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>{{ total_users }}</h3>
+                <p class="text-valo-teal mb-0">Total Members</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>{{ total_players }}</h3>
+                <p class="text-valo-teal mb-0">Players</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>{{ total_coaches }}</h3>
+                <p class="text-valo-teal mb-0">Coaches</p>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Stats -->
-<div class="row g-4 mb-4">
-    <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-number">{{ total_users }}</div>
-            <div class="stat-label">Total Members</div>
+<div class="card">
+    <div class="card-body">
+        <h5>All Members</h5>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Rank</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in all_users %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ member.username }}</td>
+                        <td>{{ member.get_full_name|default:"—" }}</td>
+                        <td>{{ member.email|default:"—" }}</td>
+                        <td><span class="badge {% if member.role == 'COACH' %}bg-warning text-dark{% else %}bg-info{% endif %}">{{ member.get_role_display }}</span></td>
+                        <td>{{ member.get_rank_display|default:"—" }}</td>
+                        <td>{{ member.date_joined|date:"M d, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-valo-teal">No members found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-number">{{ total_players }}</div>
-            <div class="stat-label">Players</div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-number">{{ total_coaches }}</div>
-            <div class="stat-label">Coaches</div>
-        </div>
-    </div>
-</div>
-
-<!-- User Table -->
-<div class="card-valo p-4">
-    <h4 class="text-valo-teal mb-3"><i class="bi bi-people"></i> All Members</h4>
-    <div class="table-responsive">
-        <table class="table table-hover align-middle" style="color: var(--vs-light);">
-            <thead style="border-bottom: 2px solid var(--vs-red);">
-                <tr>
-                    <th>#</th>
-                    <th>Username</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Favorite Agent</th>
-                    <th>Rank</th>
-                    <th>Joined</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for member in all_users %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>
-                        {% if member.profile_photo %}
-                            <img src="{{ member.profile_photo.url }}" class="profile-photo-sm me-2" alt="">
-                        {% endif %}
-                        {{ member.username }}
-                    </td>
-                    <td>{{ member.get_full_name|default:"—" }}</td>
-                    <td>{{ member.email|default:"—" }}</td>
-                    <td>
-                        <span class="badge {% if member.role == 'COACH' %}bg-warning text-dark{% else %}bg-info{% endif %}">
-                            {{ member.get_role_display }}
-                        </span>
-                    </td>
-                    <td>{{ member.favorite_agent|default:"—" }}</td>
-                    <td>{{ member.rank|default:"—" }}</td>
-                    <td>{{ member.date_joined|date:"M d, Y" }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="8" class="text-center text-muted py-4">No members found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
 </div>
 {% endblock %}

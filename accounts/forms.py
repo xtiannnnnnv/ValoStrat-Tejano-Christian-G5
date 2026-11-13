@@ -64,21 +64,18 @@ class UserProfileForm(forms.ModelForm):
         model = CustomUser
         fields = [
             'first_name', 'last_name', 'email', 'contact_number',
-            'favorite_agent', 'rank', 'profile_photo',
+            'rank',
         ]
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'favorite_agent': forms.TextInput(attrs={'class': 'form-control'}),
-            'rank': forms.TextInput(attrs={'class': 'form-control'}),
-            'profile_photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'rank': forms.Select(attrs={'class': 'form-select'}),
         }
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        # Allow the current user's own email, but block duplicates
         if CustomUser.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError('This email is already in use by another account.')
         return email
